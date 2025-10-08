@@ -6,8 +6,43 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B16A839B2E95492A00ACE0E6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B16A839A2E95492A00ACE0E6 /* SnapKit */; };
+		B16A83CA2E95892C00ACE0E6 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B16A83C92E95892C00ACE0E6 /* WidgetKit.framework */; };
+		B16A83CC2E95892C00ACE0E6 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B16A83CB2E95892C00ACE0E6 /* SwiftUI.framework */; };
+		B16A83D92E95892E00ACE0E6 /* payment-totalExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B16A83C72E95892C00ACE0E6 /* payment-totalExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B16A83D72E95892E00ACE0E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B16A83792E95483000ACE0E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B16A83C62E95892C00ACE0E6;
+			remoteInfo = "payment-totalExtension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B16A83C22E95591800ACE0E6 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B16A83D92E95892E00ACE0E6 /* payment-totalExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		B16A83812E95483000ACE0E6 /* payment-tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "payment-tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B16A83C72E95892C00ACE0E6 /* payment-totalExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "payment-totalExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B16A83C92E95892C00ACE0E6 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B16A83CB2E95892C00ACE0E6 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B16A83DE2E958EB100ACE0E6 /* payment-totalExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "payment-totalExtension.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +53,20 @@
 			);
 			target = B16A83802E95483000ACE0E6 /* payment-tracker */;
 		};
+		B16A83DD2E95892E00ACE0E6 /* Exceptions for "payment-total" folder in "payment-totalExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B16A83C62E95892C00ACE0E6 /* payment-totalExtension */;
+		};
+		B16A84932E969CD300ACE0E6 /* Exceptions for "payment-tracker" folder in "payment-totalExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Repository/PaymentTracker.xcdatamodeld,
+			);
+			target = B16A83C62E95892C00ACE0E6 /* payment-totalExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -25,8 +74,17 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B16A83932E95483100ACE0E6 /* Exceptions for "payment-tracker" folder in "payment-tracker" target */,
+				B16A84932E969CD300ACE0E6 /* Exceptions for "payment-tracker" folder in "payment-totalExtension" target */,
 			);
 			path = "payment-tracker";
+			sourceTree = "<group>";
+		};
+		B16A83CD2E95892C00ACE0E6 /* payment-total */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B16A83DD2E95892E00ACE0E6 /* Exceptions for "payment-total" folder in "payment-totalExtension" target */,
+			);
+			path = "payment-total";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -36,6 +94,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B16A839B2E95492A00ACE0E6 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B16A83C42E95892C00ACE0E6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B16A83CC2E95892C00ACE0E6 /* SwiftUI.framework in Frameworks */,
+				B16A83CA2E95892C00ACE0E6 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,7 +113,10 @@
 		B16A83782E95483000ACE0E6 = {
 			isa = PBXGroup;
 			children = (
+				B16A83DE2E958EB100ACE0E6 /* payment-totalExtension.entitlements */,
 				B16A83832E95483000ACE0E6 /* payment-tracker */,
+				B16A83CD2E95892C00ACE0E6 /* payment-total */,
+				B16A83C82E95892C00ACE0E6 /* Frameworks */,
 				B16A83822E95483000ACE0E6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,8 +125,18 @@
 			isa = PBXGroup;
 			children = (
 				B16A83812E95483000ACE0E6 /* payment-tracker.app */,
+				B16A83C72E95892C00ACE0E6 /* payment-totalExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B16A83C82E95892C00ACE0E6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B16A83C92E95892C00ACE0E6 /* WidgetKit.framework */,
+				B16A83CB2E95892C00ACE0E6 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,20 +149,45 @@
 				B16A837D2E95483000ACE0E6 /* Sources */,
 				B16A837E2E95483000ACE0E6 /* Frameworks */,
 				B16A837F2E95483000ACE0E6 /* Resources */,
+				B16A83C22E95591800ACE0E6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B16A83D82E95892E00ACE0E6 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B16A83832E95483000ACE0E6 /* payment-tracker */,
 			);
 			name = "payment-tracker";
 			packageProductDependencies = (
+				B16A839A2E95492A00ACE0E6 /* SnapKit */,
 			);
 			productName = "payment-tracker";
 			productReference = B16A83812E95483000ACE0E6 /* payment-tracker.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B16A83C62E95892C00ACE0E6 /* payment-totalExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B16A83DA2E95892E00ACE0E6 /* Build configuration list for PBXNativeTarget "payment-totalExtension" */;
+			buildPhases = (
+				B16A83C32E95892C00ACE0E6 /* Sources */,
+				B16A83C42E95892C00ACE0E6 /* Frameworks */,
+				B16A83C52E95892C00ACE0E6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B16A83CD2E95892C00ACE0E6 /* payment-total */,
+			);
+			name = "payment-totalExtension";
+			packageProductDependencies = (
+			);
+			productName = "payment-totalExtension";
+			productReference = B16A83C72E95892C00ACE0E6 /* payment-totalExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -96,6 +202,9 @@
 					B16A83802E95483000ACE0E6 = {
 						CreatedOnToolsVersion = 26.0;
 					};
+					B16A83C62E95892C00ACE0E6 = {
+						CreatedOnToolsVersion = 26.0;
+					};
 				};
 			};
 			buildConfigurationList = B16A837C2E95483000ACE0E6 /* Build configuration list for PBXProject "payment-tracker" */;
@@ -107,18 +216,29 @@
 			);
 			mainGroup = B16A83782E95483000ACE0E6;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B16A83992E95492A00ACE0E6 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B16A83822E95483000ACE0E6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				B16A83802E95483000ACE0E6 /* payment-tracker */,
+				B16A83C62E95892C00ACE0E6 /* payment-totalExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B16A837F2E95483000ACE0E6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B16A83C52E95892C00ACE0E6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +255,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B16A83C32E95892C00ACE0E6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B16A83D82E95892E00ACE0E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B16A83C62E95892C00ACE0E6 /* payment-totalExtension */;
+			targetProxy = B16A83D72E95892E00ACE0E6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B16A83952E95483100ACE0E6 /* Debug */ = {
@@ -143,6 +278,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "payment-tracker/payment-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2Q5VC69BFD;
@@ -150,9 +286,8 @@
 				INFOPLIST_FILE = "payment-tracker/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -161,12 +296,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.venetikides.payment-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -175,6 +314,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "payment-tracker/payment-tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2Q5VC69BFD;
@@ -182,9 +322,8 @@
 				INFOPLIST_FILE = "payment-tracker/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -193,12 +332,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.venetikides.payment-tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -323,6 +466,68 @@
 			};
 			name = Release;
 		};
+		B16A83DB2E95892E00ACE0E6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "payment-totalExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2Q5VC69BFD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "payment-total/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "payment-total";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.venetikides.payment-tracker.payment-total";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B16A83DC2E95892E00ACE0E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = "payment-totalExtension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2Q5VC69BFD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "payment-total/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "payment-total";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.venetikides.payment-tracker.payment-total";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -344,7 +549,35 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		B16A83DA2E95892E00ACE0E6 /* Build configuration list for PBXNativeTarget "payment-totalExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B16A83DB2E95892E00ACE0E6 /* Debug */,
+				B16A83DC2E95892E00ACE0E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B16A83992E95492A00ACE0E6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B16A839A2E95492A00ACE0E6 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B16A83992E95492A00ACE0E6 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B16A83792E95483000ACE0E6 /* Project object */;
 }
