@@ -46,28 +46,67 @@ struct PaymentEntry: TimelineEntry {
 
 struct payment_totalEntryView : View {
     var entry: Provider.Entry
+    @Environment(\.widgetFamily) var family
 
     var body: some View {
+        switch family {
+        case .systemSmall:
+            smallWidgetView
+        default:
+            mediumWidgetView
+        }
+    }
+    
+    private var smallWidgetView: some View {
+        VStack(spacing: 4) {
+            Spacer()
+            
+            Text("R$ \(entry.totalAmount, specifier: "%.2f")")
+                .font(.title3)
+                .bold()
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+            
+            Spacer()
+            
+            Text("Semana")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
+            Text(weekLabel(format: "dd/MM"))
+                .font(.system(size: 15))
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+        .multilineTextAlignment(.center)
+    }
+    
+    private var mediumWidgetView: some View {
         VStack {
-            Text("Gastos Semanais")
+            Spacer()
+            
+            Text("Gastos da semana")
             Text("R$ \(entry.totalAmount, specifier: "%.2f")")
                 .font(.title)
                 .bold()
+            
+            Spacer()
+            
             Text(weekLabel())
         }
         .padding()
     }
     
-    func weekLabel() -> String {
+    func weekLabel(format: String = "dd MMM") -> String {
         let calendar = Calendar.current
         let now = Date()
         guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)),
-              let endOfWeek = calendar.date(byAdding: .day, value: 7, to: startOfWeek) else {
+              let endOfWeek = calendar.date(byAdding: .day, value: 6, to: startOfWeek) else {
             return "Unknown"
         }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMM"
+        formatter.dateFormat = format
         
         return "\(formatter.string(from: startOfWeek)) - \(formatter.string(from: endOfWeek))"
     }
