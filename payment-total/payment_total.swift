@@ -21,10 +21,20 @@ struct Provider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<PaymentEntry>) -> Void) {
         let defaults = UserDefaults(suiteName: "group.dev.venetikides.paymenttracker")
         let total = defaults?.double(forKey: "totalAmount") ?? 0.0
+       
+        let now = Date()
+        var calendar = Calendar.current
+        calendar.timeZone = .current
         
-        let entry = PaymentEntry(date: Date(), totalAmount: total)
-        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: Date())!
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)),
+              let nextMonday = calendar.date(byAdding: .day, value: 7, to: startOfWeek) else {
+            return
+        }
+        
+        let entry = PaymentEntry(date: now, totalAmount: total)
+        
+        
+        let timeline = Timeline(entries: [entry], policy: .after(nextMonday))
         completion(timeline)
     }
 }
@@ -43,8 +53,23 @@ struct payment_totalEntryView : View {
             Text("R$ \(entry.totalAmount, specifier: "%.2f")")
                 .font(.title)
                 .bold()
+            Text(weekLabel())
         }
         .padding()
+    }
+    
+    func weekLabel() -> String {
+        let calendar = Calendar.current
+        let now = Date()
+        guard let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now)),
+              let endOfWeek = calendar.date(byAdding: .day, value: 7, to: startOfWeek) else {
+            return "Unknown"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM"
+        
+        return "\(formatter.string(from: startOfWeek)) - \(formatter.string(from: endOfWeek))"
     }
 }
 

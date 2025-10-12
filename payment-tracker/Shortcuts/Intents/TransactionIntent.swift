@@ -49,7 +49,7 @@ struct TransactionIntent: AppIntent {
                 _ = try repo.add(newPayment)
             }
 
-            let total = try await MainActor.run { try repo.totalAmount() }
+            let total = try await MainActor.run { try repo.totalAmountFOrCurrentWeek() }
 
             if let groupDefaults = UserDefaults(
                 suiteName: "group.dev.venetikides.paymenttracker"
