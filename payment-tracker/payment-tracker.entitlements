@@ -5,6 +5,7 @@
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.dev.venetikides.paymenttracker</string>
+		<string>group.2Q5VC69BFD.teste</string>
 	</array>
 </dict>
 </plist>

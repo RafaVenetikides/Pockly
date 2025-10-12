@@ -7,6 +7,7 @@
 
 import UIKit
 import WidgetKit
+import os
 
 class PaymentHistoryViewController: UIViewController {
     

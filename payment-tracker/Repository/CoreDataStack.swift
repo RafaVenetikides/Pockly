@@ -23,13 +23,11 @@ final class CoreDataStack: CoreDataStackProtocol {
     init(modelName: String = "PaymentTracker", appGroupID: String = "group.dev.venetikides.paymenttracker") {
         container = NSPersistentContainer(name: modelName)
         
-        let storeURL: URL = {
-            guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
-                fatalError("App Group não encontrado: \(appGroupID)")
-            }
-            
-            return containerURL.appendingPathComponent("\(modelName).sqlite")
-        }()
+        guard let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
+            fatalError("App Group not found: \(appGroupID)")
+        }
+        
+        let storeURL = groupURL.appendingPathComponent("\(modelName).sqlite")
         
         let description = NSPersistentStoreDescription(url: storeURL)
         description.type = NSSQLiteStoreType
@@ -39,8 +37,8 @@ final class CoreDataStack: CoreDataStackProtocol {
         container.persistentStoreDescriptions = [description]
         
         container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Erro ao carregar sore: \(error)")
+            if let error = error as NSError?{
+                fatalError("Erro ao carregar sore: \(error), \(error.userInfo)")
             }
         }
         

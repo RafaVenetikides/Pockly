@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AppIntents
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let stack = CoreDataStack()
         let repository = PaymentRepository(stack: stack)
         let nav = UINavigationController(rootViewController: PaymentHistoryViewController(repository: repository))
+        
+        PocklyShortcuts.updateAppShortcutParameters()
         
         window?.rootViewController = nav
         window?.makeKeyAndVisible()

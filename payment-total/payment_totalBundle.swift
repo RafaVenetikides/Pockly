@@ -12,6 +12,5 @@ import SwiftUI
 struct payment_totalBundle: WidgetBundle {
     var body: some Widget {
         payment_total()
-        payment_totalControl()
     }
 }

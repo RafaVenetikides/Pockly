@@ -39,7 +39,7 @@ struct payment_totalEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Weekly Spending")
+            Text("Gastos Semanais")
             Text("R$ \(entry.totalAmount, specifier: "%.2f")")
                 .font(.title)
                 .bold()
