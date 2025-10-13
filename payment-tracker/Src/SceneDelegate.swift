@@ -11,7 +11,7 @@ import AppIntents
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var onBoardingCoordinator: OnBoardingCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -22,7 +22,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let stack = CoreDataStack()
         let repository = PaymentRepository(stack: stack)
-        let nav = UINavigationController(rootViewController: PaymentHistoryViewController(repository: repository))
+        let nav = UINavigationController()
+        let homeFactory: () -> UIViewController = {
+            PaymentHistoryViewController(repository: repository)
+        }
+       
+        if UserDefaults.standard.bool(forKey: "onboardingCompleted") {
+            let homeVC = homeFactory()
+            nav.setViewControllers([homeVC], animated: false)
+        } else {
+            let coordinator = OnBoardingCoordinator(nav: nav, homeFactory: homeFactory)
+            self.onBoardingCoordinator = coordinator
+            coordinator.start()
+        }
         
         PocklyShortcuts.updateAppShortcutParameters()
         

@@ -32,6 +32,7 @@ class PaymentHistoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = false
 
         do {
             items = try repository.fetchAll()
