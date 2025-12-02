@@ -15,10 +15,14 @@ struct TransactionIntent: AppIntent {
     
     let logger = Logger(subsystem: "dev.pockly", category: "intent")
 
+    @available(iOS 26.0, *)
     static let supportedModes: IntentModes = [
         .background
     ]
-
+    
+    @available(iOS 18.6, *)
+    static var openAppWhenRun: Bool = false
+    
     static var parameterSummary: some ParameterSummary {
         Summary("Adicionar nova transação")
     }
@@ -72,28 +76,28 @@ struct TransactionIntent: AppIntent {
         let brCurrency = NumberFormatter()
         brCurrency.locale = Locale(identifier: "pt_BR")
         brCurrency.numberStyle = .currency
-        if let n = brCurrency.number(from: text) {
-            return n.doubleValue
+        if let number = brCurrency.number(from: text) {
+            return number.doubleValue
         }
 
         let brDecimal = NumberFormatter()
         brDecimal.locale = Locale(identifier: "pt_BR")
         brDecimal.numberStyle = .decimal
-        if let n = brDecimal.number(from: text) {
-            return n.doubleValue
+        if let number = brDecimal.number(from: text) {
+            return number.doubleValue
         }
 
         let allowed = CharacterSet(charactersIn: "0123456789.,-")
         let scalars = text.unicodeScalars.filter { allowed.contains($0) }
-        var s = String(String.UnicodeScalarView(scalars))
+        var stringFromNumber = String(String.UnicodeScalarView(scalars))
 
-        if s.contains(",") {
-            s = s.replacingOccurrences(of: ".", with: "")
-            s = s.replacingOccurrences(of: ",", with: ".")
+        if stringFromNumber.contains(",") {
+            stringFromNumber = stringFromNumber.replacingOccurrences(of: ".", with: "")
+            stringFromNumber = stringFromNumber.replacingOccurrences(of: ",", with: ".")
         } else {
-            s = s.replacingOccurrences(of: ",", with: "")
+            stringFromNumber = stringFromNumber.replacingOccurrences(of: ",", with: "")
         }
 
-        return Double(s) ?? 0.0
+        return Double(stringFromNumber) ?? 0.0
     }
 }

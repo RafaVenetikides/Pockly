@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B16A83802E95483000ACE0E6"
-               BuildableName = "payment-tracker.app"
-               BlueprintName = "payment-tracker"
+               BuildableName = "PaymentTracker.app"
+               BlueprintName = "PaymentTracker"
                ReferencedContainer = "container:payment-tracker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B16A83802E95483000ACE0E6"
-            BuildableName = "payment-tracker.app"
-            BlueprintName = "payment-tracker"
+            BuildableName = "PaymentTracker.app"
+            BlueprintName = "PaymentTracker"
             ReferencedContainer = "container:payment-tracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B16A83802E95483000ACE0E6"
-            BuildableName = "payment-tracker.app"
-            BlueprintName = "payment-tracker"
+            BuildableName = "PaymentTracker.app"
+            BlueprintName = "PaymentTracker"
             ReferencedContainer = "container:payment-tracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

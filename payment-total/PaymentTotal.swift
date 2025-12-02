@@ -44,7 +44,7 @@ struct PaymentEntry: TimelineEntry {
     let totalAmount: Double
 }
 
-struct payment_totalEntryView : View {
+struct PaymentTotalEntryView: View {
     var entry: Provider.Entry
     @Environment(\.widgetFamily) var family
 
@@ -112,16 +112,16 @@ struct payment_totalEntryView : View {
     }
 }
 
-struct payment_total: Widget {
+struct PaymentTotal: Widget {
     let kind: String = "payment_total"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
-                payment_totalEntryView(entry: entry)
+                PaymentTotalEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
             } else {
-                payment_totalEntryView(entry: entry)
+                PaymentTotalEntryView(entry: entry)
                     .padding()
                     .background()
             }
@@ -133,7 +133,7 @@ struct payment_total: Widget {
 }
 
 #Preview(as: .systemSmall) {
-    payment_total()
+    PaymentTotal()
 } timeline: {
     PaymentEntry(date: .now, totalAmount: 15.0)
     PaymentEntry(date: .now, totalAmount: 30.0)

@@ -9,8 +9,13 @@ import UIKit
 import AVFoundation
 
 final class PlayerView: UIView {
-    override class var layerClass: AnyClass { AVPlayerLayer.self }
-    var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer}
+    override static var layerClass: AnyClass { AVPlayerLayer.self }
+    var playerLayer: AVPlayerLayer {
+        guard let playerLayer = layer as? AVPlayerLayer else {
+            preconditionFailure("Expected layer to be an AVPlayerLayer")
+        }
+        return playerLayer
+    }
     var player: AVPlayer? {
         get { playerLayer.player }
         set { playerLayer.player = newValue }

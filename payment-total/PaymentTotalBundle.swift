@@ -9,8 +9,8 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct payment_totalBundle: WidgetBundle {
+struct PaymentTotalBundle: WidgetBundle {
     var body: some Widget {
-        payment_total()
+        PaymentTotal()
     }
 }

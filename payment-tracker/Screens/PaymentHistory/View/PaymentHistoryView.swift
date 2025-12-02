@@ -2,30 +2,30 @@
 //  PaymentHistoryView.swift
 //  payment-tracker
 //
-//  Created by Rafael Venetikides on 07/10/25.
+//  Created by Rafael Venetikides on 01/12/25.
 //
 
 import UIKit
 import SnapKit
 
-class PaymentHistoryView: UIView {
-    private(set) lazy var paymentHistory: UITableView = {
-        let view = UITableView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
-        view.separatorStyle = .none
+final class PaymentHistoryView: UIView {
+    
+    private var header = PaymentHistoryHeaderView()
+    
+    private let divider: UIView = {
+        let divider = UIView()
+        divider.backgroundColor = .systemGray2
         
-        return view
+        return divider
     }()
+    
+    private(set) lazy var tableView = PaymentHistoryTableView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .black
-        
         setupViews()
         setupConstraints()
-        setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
@@ -33,17 +33,28 @@ class PaymentHistoryView: UIView {
     }
     
     private func setupViews() {
-        addSubview(paymentHistory)
+        addSubview(header)
+        addSubview(divider)
+        addSubview(tableView)
     }
     
     private func setupConstraints() {
-        paymentHistory.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview()
+        header.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(180)
         }
-    }
-    
-    private func setupCollectionView() {
-        paymentHistory.register(PaymentCell.self, forCellReuseIdentifier: "PaymentCell")
+        
+        divider.snp.makeConstraints { make in
+            make.height.equalTo(1)
+            make.bottom.equalTo(tableView.snp.top).offset(-5)
+            make.horizontalEdges.equalToSuperview().inset(12)
+        }
+        
+        tableView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.top.equalTo(header.snp.bottom).offset(20)
+            make.bottom.equalToSuperview()
+        }
     }
 }

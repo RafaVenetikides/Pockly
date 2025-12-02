@@ -7,14 +7,13 @@
 
 import UIKit
 import WidgetKit
-import os
 
 class PaymentHistoryViewController: UIViewController {
 
     private var paymentView = PaymentHistoryView()
-    private let repository: PaymentRepository
+    internal let repository: PaymentRepository
 
-    private var items: [PaymentRecord] = []
+    internal var items: [PaymentRecord] = []
 
     init(repository: PaymentRepository) {
         self.repository = repository
@@ -39,18 +38,27 @@ class PaymentHistoryViewController: UIViewController {
         } catch {
             print("Erro ao carregar pagamentos: \(error)")
         }
+        
+        paymentView.tableView.paymentHistory.delegate = self
+        paymentView.tableView.paymentHistory.dataSource = self
 
         updateTotalInAppGroup()
 
-        paymentView.paymentHistory.delegate = self
-        paymentView.paymentHistory.dataSource = self
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "plus"),
-            style: .prominent,
-            target: self,
-            action: #selector(addPayment)
-        )
+        if #available(iOS 26.0, *) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "plus"),
+                style: .prominent,
+                target: self,
+                action: #selector(addPayment)
+            )
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                title: "",
+                image: UIImage(systemName: "plus"),
+                target: self,
+                action: #selector(addPayment)
+            )
+        }
     }
 
     @objc
@@ -61,7 +69,6 @@ class PaymentHistoryViewController: UIViewController {
             preferredStyle: .alert
         )
         alert.addTextField { $0.placeholder = "Nome (ex: Supermercado)" }
-        alert.addTextField { $0.placeholder = "Cartão (ex: Nubank)" }
         alert.addTextField {
             $0.placeholder = "Valor"
             $0.keyboardType = .decimalPad
@@ -77,11 +84,8 @@ class PaymentHistoryViewController: UIViewController {
                         alert.textFields?[0].text?.trimmingCharacters(
                             in: .whitespacesAndNewlines
                         ) ?? ""
-                    let card =
-                        alert.textFields?[1].text?.trimmingCharacters(
-                            in: .whitespacesAndNewlines
-                        ) ?? ""
-                    let raw = alert.textFields?[2].text?.replacingOccurrences(
+                    let card = "Carteira"
+                    let raw = alert.textFields?[1].text?.replacingOccurrences(
                         of: ",",
                         with: "."
                     ).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -99,7 +103,7 @@ class PaymentHistoryViewController: UIViewController {
                     do {
                         let record = try self.repository.add(payment)
                         self.items.insert(record, at: 0)
-                        self.paymentView.paymentHistory.reloadData()
+                        self.paymentView.tableView.paymentHistory.reloadData()
                         self.updateTotalInAppGroup()
                     } catch {
                         print("Erro ao salvar: \(error)")
@@ -112,7 +116,7 @@ class PaymentHistoryViewController: UIViewController {
         present(alert, animated: true)
     }
 
-    private func updateTotalInAppGroup() {
+    internal func updateTotalInAppGroup() {
         let calendar = Calendar.current
         let now = Date()
 
@@ -141,63 +145,4 @@ class PaymentHistoryViewController: UIViewController {
         }
         WidgetCenter.shared.reloadAllTimelines()
     }
-
-}
-
-extension PaymentHistoryViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) {
-            [weak self] _, _, completion in
-            guard let self else { return }
-            let record = self.items[indexPath.row]
-            do {
-                try self.repository.delete(id: record.id)
-                self.items.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.updateTotalInAppGroup()
-                completion(true)
-            } catch {
-                print("Error deleting data from CoreData: \(error)")
-                completion(false)
-            }
-        }
-        deleteAction.image = UIImage(systemName: "trash.fill")
-        deleteAction.backgroundColor = .red
-        return UISwipeActionsConfiguration(actions: [deleteAction])
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        heightForRowAt indexPath: IndexPath
-    ) -> CGFloat {
-        return 80
-    }
-}
-
-extension PaymentHistoryViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
-        -> Int
-    {
-        items.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
-        -> UITableViewCell
-    {
-        guard
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: "PaymentCell",
-                for: indexPath
-            ) as? PaymentCell
-        else {
-            return UITableViewCell()
-        }
-        let payment = items[indexPath.row].payment
-        cell.setup(with: payment)
-        return cell
-    }
-
 }
