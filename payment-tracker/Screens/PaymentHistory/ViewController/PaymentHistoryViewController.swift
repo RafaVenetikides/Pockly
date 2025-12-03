@@ -13,7 +13,7 @@ class PaymentHistoryViewController: UIViewController {
     private var paymentView = PaymentHistoryView()
     internal let repository: PaymentRepository
 
-    internal var items: [PaymentRecord] = []
+    private(set) var items: [PaymentRecord] = []
 
     init(repository: PaymentRepository) {
         self.repository = repository
@@ -73,6 +73,10 @@ class PaymentHistoryViewController: UIViewController {
             $0.placeholder = "Valor"
             $0.keyboardType = .decimalPad
         }
+        alert.addTextField {
+            $0.placeholder = "Data (dd/MM/yyyy) - opcional"
+            $0.text = "01/12/2025"
+        }
 
         alert.addAction(
             UIAlertAction(
@@ -84,25 +88,38 @@ class PaymentHistoryViewController: UIViewController {
                         alert.textFields?[0].text?.trimmingCharacters(
                             in: .whitespacesAndNewlines
                         ) ?? ""
+
                     let card = "Carteira"
+
                     let raw = alert.textFields?[1].text?.replacingOccurrences(
                         of: ",",
                         with: "."
                     ).trimmingCharacters(in: .whitespacesAndNewlines)
+
+                    let dateString = alert.textFields?[2].text?
+                                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
                     guard !name.isEmpty, !card.isEmpty, let raw,
                         let value = Double(raw)
                     else { return }
+
+                    let formatter = DateFormatter()
+                            formatter.dateFormat = "dd/MM/yyyy"
+                            formatter.locale = Locale(identifier: "pt_BR")
+
+                    let date = formatter.date(from: dateString) ?? Date()
 
                     let payment = Payment(
                         name: name,
                         cardName: card,
                         value: value,
-                        date: Date()
+                        date: date
                     )
 
                     do {
                         let record = try self.repository.add(payment)
                         self.items.insert(record, at: 0)
+                        self.items.sort { $0.payment.date > $1.payment.date }
                         self.paymentView.tableView.paymentHistory.reloadData()
                         self.updateTotalInAppGroup()
                     } catch {
@@ -117,32 +134,64 @@ class PaymentHistoryViewController: UIViewController {
     }
 
     internal func updateTotalInAppGroup() {
-        let calendar = Calendar.current
-        let now = Date()
+        let currentWeekTotal = weeklyTotal()
+        let previousWeekTotal = weeklyTotal(weekOffset: -1)
 
-        guard
-            let startOfWeek = calendar.date(
-                from: calendar.dateComponents(
-                    [.yearForWeekOfYear, .weekOfYear],
-                    from: now
-                )
-            ),
-            let endOfWeek = calendar.date(bySetting: .day, value: 7, of: now)
-        else {
-            return
+        if let (startDate, endDate) = weekRange() {
+            let calendar = Calendar.current
+            let endDate = calendar.date(byAdding: .day, value: -1, to: endDate) ?? endDate
+
+            paymentView.updateHeader(
+                currentWeekTotal: currentWeekTotal,
+                previousWeekTotal: previousWeekTotal,
+                startDate: startDate,
+                endDate: endDate
+            )
+        } else {
+            paymentView.updateHeader(
+                currentWeekTotal: currentWeekTotal,
+                previousWeekTotal: previousWeekTotal,
+                startDate: Date(),
+                endDate: Date()
+            )
+        }
+
+        if let groupDefaults = UserDefaults(
+            suiteName: "group.dev.venetikides.paymenttracker"
+        ) {
+            groupDefaults.set(currentWeekTotal, forKey: "totalAmount")
+        }
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func weeklyTotal(weekOffset: Int = 0) -> Double {
+        guard let (startOfWeek, endOfWeek) = weekRange(weekOffset: weekOffset) else {
+            return 0
         }
 
         let total = items.filter { paymentRecord in
             let date = paymentRecord.payment.date
             return date >= startOfWeek && date < endOfWeek
         }
-        .reduce(0.0) { $0 + $1.payment.value }
+            .reduce(0.0) { $0 + $1.payment.value }
 
-        if let groupDefaults = UserDefaults(
-            suiteName: "group.dev.venetikides.paymenttracker"
-        ) {
-            groupDefaults.set(total, forKey: "totalAmount")
+        return total
+    }
+
+    func removeItem(at indexPath: IndexPath) {
+        items.remove(at: indexPath.row)
+    }
+
+    private func weekRange(weekOffset: Int = 0) -> (start: Date, endExclusive: Date)? {
+        let calendar = Calendar.current
+        let now = Date()
+
+        guard let baseDate = calendar.date(byAdding: .weekOfYear, value: weekOffset, to: now),
+              let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: baseDate)),
+              let endOfWeek = calendar.date(byAdding: .day, value: 7, to: startOfWeek) else {
+            return nil
         }
-        WidgetCenter.shared.reloadAllTimelines()
+
+        return (startOfWeek, endOfWeek)
     }
 }

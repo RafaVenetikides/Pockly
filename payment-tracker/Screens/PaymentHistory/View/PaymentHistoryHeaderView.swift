@@ -25,7 +25,6 @@ final class PaymentHistoryHeaderView: UIView {
         view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 42, weight: .bold))
         view.textAlignment = .center
         view.textColor = .white
-        view.text = "R$ 145,38"
         view.adjustsFontForContentSizeCategory = true
 
         return view
@@ -36,7 +35,6 @@ final class PaymentHistoryHeaderView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = .systemFont(ofSize: 17, weight: .medium)
         view.textAlignment = .center
-        view.text = "􀄨15% de semana passada"
         view.textColor = .green
 
         return view
@@ -98,5 +96,88 @@ final class PaymentHistoryHeaderView: UIView {
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(16)
         }
+    }
+
+    func update(currentWeekTotal: Double, previousWeekTotal: Double, startDate: Date, endDate: Date) {
+        updateTotalLabel(currentWeekTotal)
+        updateComparisonLabel(
+            current: currentWeekTotal,
+            previous: previousWeekTotal
+        )
+        updateDatesLabel(startDate: startDate, endDate: endDate)
+    }
+
+    func updateTotalLabel(_ totalAmount: Double) {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "pt_BR")
+
+        let formatted = formatter.string(from: NSNumber(value: totalAmount)) ?? "R$ 0,00"
+        totalSpentLabel.text = formatted
+    }
+
+    func updateComparisonLabel(current: Double, previous: Double) {
+        guard previous != 0 else {
+            comparisonLabel.attributedText = nil
+            comparisonLabel.textColor = .secondaryLabel
+            comparisonLabel.text = "Sem referência da semana passada"
+            return
+        }
+
+        let diff = current - previous
+        let percentage = abs(diff) / previous * 100
+
+        guard diff != 0 else {
+            comparisonLabel.attributedText = nil
+            comparisonLabel.textColor = .secondaryLabel
+            comparisonLabel.text = "0.0% de semana passada"
+            return
+        }
+
+        let symbolName: String
+        let color: UIColor
+        let text: String
+
+        if diff < 0 {
+            symbolName = "arrow.down"
+            color = .systemGreen
+        } else {
+            symbolName = "arrow.up"
+            color = .systemRed
+        }
+
+        text = String(format: "%.2f%% de semana passada", percentage)
+
+        let attachment = NSTextAttachment()
+        if let image = UIImage(systemName: symbolName)?.withTintColor(color, renderingMode: .alwaysOriginal) {
+            attachment.image = image
+        }
+
+        let symbolString = NSAttributedString(attachment: attachment)
+        let textString = NSAttributedString(
+            string: text,
+            attributes: [
+                .foregroundColor: color,
+                .font: comparisonLabel.font as Any
+            ]
+        )
+
+        let result = NSMutableAttributedString()
+        result.append(symbolString)
+        result.append(textString)
+        
+        comparisonLabel.attributedText = result
+        comparisonLabel.textColor = color
+    }
+
+    private func updateDatesLabel(startDate: Date, endDate: Date) {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "pt_BR")
+        formatter.dateFormat = "dd MMM"
+
+        let startString = formatter.string(from: startDate)
+        let endString = formatter.string(from: endDate)
+
+        datesLabel.text = "\(startString) - \(endString)"
     }
 }

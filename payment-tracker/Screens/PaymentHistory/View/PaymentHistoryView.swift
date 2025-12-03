@@ -41,7 +41,7 @@ final class PaymentHistoryView: UIView {
     private func setupConstraints() {
         header.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(180)
         }
         
@@ -56,5 +56,14 @@ final class PaymentHistoryView: UIView {
             make.top.equalTo(header.snp.bottom).offset(20)
             make.bottom.equalToSuperview()
         }
+    }
+
+    func updateHeader(currentWeekTotal: Double, previousWeekTotal: Double, startDate: Date, endDate: Date) {
+        header.update(
+            currentWeekTotal: currentWeekTotal,
+            previousWeekTotal: previousWeekTotal,
+            startDate: startDate,
+            endDate: endDate
+        )
     }
 }

@@ -9,6 +9,16 @@ import UIKit
 import SnapKit
 
 class PaymentCell: UITableViewCell {
+    private(set) lazy var transactionName: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = .systemFont(ofSize: 17, weight: .bold)
+        view.lineBreakMode = .byTruncatingTail
+        view.textColor = .white
+
+        return view
+    }()
+
     private(set) lazy var paymentValue: UILabel = {
         let view = UILabel()
         view.font = .systemFont(ofSize: 18, weight: .bold)
@@ -42,23 +52,30 @@ class PaymentCell: UITableViewCell {
     }
     
     private func setupViews() {
+        addSubview(transactionName)
         addSubview(paymentValue)
         addSubview(dateLabel)
     }
     
     private func setupConstraints() {
-        paymentValue.snp.makeConstraints { make in
+        transactionName.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(12)
         }
         
         dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(paymentValue.snp.bottom).offset(12)
+            make.top.equalTo(transactionName.snp.bottom).offset(8)
             make.leading.equalToSuperview().offset(12)
+        }
+
+        paymentValue.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-12)
         }
     }
     
     func setup(with payment: Payment) {
+        transactionName.text = payment.name
         paymentValue.text = "R$" + String(format: "%.2f", payment.value)
         dateLabel.text = payment.date.formatted()
     }

@@ -17,7 +17,7 @@ extension PaymentHistoryViewController: UITableViewDelegate {
             let record = self.items[indexPath.row]
             do {
                 try self.repository.delete(id: record.id)
-                self.items.remove(at: indexPath.row)
+                self.removeItem(at: indexPath)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.updateTotalInAppGroup()
                 completion(true)
@@ -35,6 +35,6 @@ extension PaymentHistoryViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return 80
+        return 70
     }
 }
