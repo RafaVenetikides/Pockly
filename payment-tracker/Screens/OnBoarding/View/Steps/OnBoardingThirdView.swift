@@ -13,7 +13,7 @@ class OnBoardingThirdView: UIView {
     
     private(set) lazy var firstStepLabel: UILabel = {
         let view = UILabel()
-        view.text = "3º Passo:\nSelecione a opção ”Executar Automaticamente” e clique em ”Seguinte”"
+        view.text = "3º Passo:\nSelecione a opção \"Executar Automaticamente\" e clique em \"Seguinte\""
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .white
@@ -34,7 +34,7 @@ class OnBoardingThirdView: UIView {
     
     private(set) lazy var secondStepLabel: UILabel = {
         let view = UILabel()
-        view.text = "4º Passo:\nClique em ”Criar Novo Atalho” e busque pelo Pockly, selecionando ”Adicionar nova transação”"
+        view.text = "4º Passo:\nClique em \"Criar Novo Atalho\" e busque pelo Pockly, selecionando \"Adicionar nova transação\""
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .white

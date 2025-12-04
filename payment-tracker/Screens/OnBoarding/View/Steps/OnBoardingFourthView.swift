@@ -17,7 +17,7 @@ class OnBoardingFourthView: UIView {
     
     private(set) lazy var firstStepLabel: UILabel = {
         let view = UILabel()
-        view.text = "5º Passo:\nNo Campo ”Valor” selecione ”Selecionar Variável”"
+        view.text = "5º Passo:\nNo Campo \"Valor\" selecione \"Selecionar Variável\""
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .white
@@ -28,7 +28,7 @@ class OnBoardingFourthView: UIView {
     }()
     
     private(set) lazy var shortcutImage: UIImageView = {
-        let image = UIImage(named: "value")
+        let image = UIImage(named: "variable-addition")
         let view = UIImageView(image: image)
         view.contentMode = .scaleAspectFit
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class OnBoardingFourthView: UIView {
     
     private(set) lazy var secondStepLabel: UILabel = {
         let view = UILabel()
-        view.text = "6º Passo:\nClique em ”Entrada do Atalho” e altere o campo para ”Valor”"
+        view.text = "6º Passo:\nClique em \"Entrada do Atalho\" e altere o campo para \"Valor\""
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .white
@@ -94,7 +94,7 @@ class OnBoardingFourthView: UIView {
     }
     
     func startVideo() {
-        guard let url = Bundle.main.url(forResource: "setting_value", withExtension: "mov") else {
+        guard let url = Bundle.main.url(forResource: "setting_value2", withExtension: "mov") else {
             print("video not found")
             return
         }

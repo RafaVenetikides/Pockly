@@ -27,6 +27,9 @@ struct TransactionIntent: AppIntent {
         Summary("Adicionar nova transação")
     }
 
+    @Parameter(title: "Nome", description: "Nome da transação")
+    var name: String?
+
     @Parameter(title: "Valor", description: "Valor da transação")
     var amount: String?
 
@@ -36,7 +39,7 @@ struct TransactionIntent: AppIntent {
         }
         
         let newPayment = Payment(
-            name: "Atalho",
+            name: name ?? "Transação sem nome",
             cardName: "Carteira",
             value: Self.parseCurrency(amount),
             date: Date()

@@ -38,7 +38,7 @@ class OnBoardingFinishView: UIView {
     private(set) lazy var homeButton: GradientButton = {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setTitle("Ir para a Home", for: .normal)
+        view.setTitle("Concluir", for: .normal)
         view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
