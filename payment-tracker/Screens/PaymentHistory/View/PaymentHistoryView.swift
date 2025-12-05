@@ -23,7 +23,9 @@ final class PaymentHistoryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
+        backgroundColor = .systemBackground
+
         setupViews()
         setupConstraints()
     }
@@ -42,7 +44,6 @@ final class PaymentHistoryView: UIView {
         header.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(180)
         }
         
         divider.snp.makeConstraints { make in

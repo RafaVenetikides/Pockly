@@ -16,7 +16,7 @@ class OnBoardingThirdView: UIView {
         view.text = "3º Passo:\nSelecione a opção \"Executar Automaticamente\" e clique em \"Seguinte\""
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -37,7 +37,7 @@ class OnBoardingThirdView: UIView {
         view.text = "4º Passo:\nClique em \"Criar Novo Atalho\" e busque pelo Pockly, selecionando \"Adicionar nova transação\""
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -66,7 +66,7 @@ class OnBoardingThirdView: UIView {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("Próximo", for: .normal)
-        view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
+        view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
         

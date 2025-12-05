@@ -20,7 +20,7 @@ class OnBoardingSecondView: UIView {
         view.text = "1º Passo:\nProcure pelo app Atalhos no seu dispositivo"
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -41,7 +41,7 @@ class OnBoardingSecondView: UIView {
         view.text = "2º Passo:\nNo Atalhos, vá em criar nova automação e selecione o app Carteira"
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -60,7 +60,7 @@ class OnBoardingSecondView: UIView {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("Próximo", for: .normal)
-        view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
+        view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
         

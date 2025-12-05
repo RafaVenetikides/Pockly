@@ -20,7 +20,7 @@ class OnBoardingFourthView: UIView {
         view.text = "5º Passo:\nNo Campo \"Valor\" selecione \"Selecionar Variável\""
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -41,7 +41,7 @@ class OnBoardingFourthView: UIView {
         view.text = "6º Passo:\nClique em \"Entrada do Atalho\" e altere o campo para \"Valor\""
         view.textAlignment = .center
         view.numberOfLines = 0
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 14, weight: .semibold)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -60,7 +60,7 @@ class OnBoardingFourthView: UIView {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("Próximo", for: .normal)
-        view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
+        view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
         

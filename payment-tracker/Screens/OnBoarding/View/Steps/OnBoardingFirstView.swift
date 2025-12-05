@@ -17,7 +17,7 @@ class OnBoardingFirstView: UIView {
         let view = UILabel()
         view.text = "Bem vindo ao"
         view.font = UIFont.systemFont(ofSize: 24)
-        view.textColor = .white
+        view.textColor = .label
         view.textAlignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -38,7 +38,7 @@ class OnBoardingFirstView: UIView {
         view.text = "Antes de começar, vamos configurar o seu app para cadastrar transações automaticamente?"
         view.textAlignment = .center
         view.font = .systemFont(ofSize: 26)
-        view.textColor = .white
+        view.textColor = .label
         view.numberOfLines = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -49,7 +49,7 @@ class OnBoardingFirstView: UIView {
         let view = GradientButton()
         view.setTitle("Vamos lá!", for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
+        view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
         
@@ -64,7 +64,7 @@ class OnBoardingFirstView: UIView {
     private(set) lazy var skipButton: UIButton = {
         let view = UIButton()
         view.setTitle("Pular configuração", for: .normal)
-        view.setTitleColor(.white, for: .normal)
+        view.setTitleColor(.label, for: .normal)
         view.titleLabel?.font = .systemFont(ofSize: 22)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addTarget(self, action: #selector(handleSkip), for: .touchUpInside)

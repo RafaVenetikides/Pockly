@@ -35,6 +35,6 @@ extension PaymentHistoryViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForRowAt indexPath: IndexPath
     ) -> CGFloat {
-        return 70
+        return UITableView.automaticDimension
     }
 }

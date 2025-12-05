@@ -12,28 +12,32 @@ class PaymentCell: UITableViewCell {
     private(set) lazy var transactionName: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 17, weight: .bold)
+        view.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: .systemFont(ofSize: 17, weight: .bold))
         view.lineBreakMode = .byTruncatingTail
-        view.textColor = .white
+        view.textColor = .label
+        view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
 
     private(set) lazy var paymentValue: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 18, weight: .bold)
-        view.textColor = .white
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 18, weight: .bold))
+        view.textColor = .label
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.adjustsFontForContentSizeCategory = true
+
         return view
     }()
     
     private(set) lazy var dateLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 14)
-        view.textColor = .white
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 14))
+        view.textColor = .label
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.adjustsFontForContentSizeCategory = true
+
         return view
     }()
     
@@ -61,11 +65,13 @@ class PaymentCell: UITableViewCell {
         transactionName.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)
             make.top.equalToSuperview().offset(12)
+            make.trailing.lessThanOrEqualTo(paymentValue.snp.leading)
         }
         
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(transactionName.snp.bottom).offset(8)
             make.leading.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview()
         }
 
         paymentValue.snp.makeConstraints { make in

@@ -40,7 +40,7 @@ struct TransactionIntent: AppIntent {
         
         let newPayment = Payment(
             name: name ?? "Transação sem nome",
-            cardName: "Carteira",
+            cardName: "Cartão desconhecido",
             value: Self.parseCurrency(amount),
             date: Date()
         )

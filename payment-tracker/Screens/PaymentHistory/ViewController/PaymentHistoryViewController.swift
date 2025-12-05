@@ -73,10 +73,6 @@ class PaymentHistoryViewController: UIViewController {
             $0.placeholder = "Valor"
             $0.keyboardType = .decimalPad
         }
-        alert.addTextField {
-            $0.placeholder = "Data (dd/MM/yyyy) - opcional"
-            $0.text = "01/12/2025"
-        }
 
         alert.addAction(
             UIAlertAction(
@@ -89,25 +85,18 @@ class PaymentHistoryViewController: UIViewController {
                             in: .whitespacesAndNewlines
                         ) ?? ""
 
-                    let card = "Carteira"
+                    let card = "Registro manual"
 
                     let raw = alert.textFields?[1].text?.replacingOccurrences(
                         of: ",",
                         with: "."
                     ).trimmingCharacters(in: .whitespacesAndNewlines)
 
-                    let dateString = alert.textFields?[2].text?
-                                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-
                     guard !name.isEmpty, !card.isEmpty, let raw,
                         let value = Double(raw)
                     else { return }
 
-                    let formatter = DateFormatter()
-                            formatter.dateFormat = "dd/MM/yyyy"
-                            formatter.locale = Locale(identifier: "pt_BR")
-
-                    let date = formatter.date(from: dateString) ?? Date()
+                    let date = Date()
 
                     let payment = Payment(
                         name: name,

@@ -26,7 +26,7 @@ class OnBoardingFinishView: UIView {
     private(set) lazy var descriptionLabel: UILabel = {
         let view = UILabel()
         view.text = "Agora compras feitas por aproximação com o celular serão automaticamente cadastradas no Pockly!"
-        view.textColor = .white
+        view.textColor = .label
         view.font = .systemFont(ofSize: 26, weight: .regular)
         view.numberOfLines = 0
         view.textAlignment = .center
@@ -39,7 +39,7 @@ class OnBoardingFinishView: UIView {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.setTitle("Concluir", for: .normal)
-        view.gradientColors = [.lightBlueCustom, .blueCustom, .lightBlueCustom]
+        view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
         
@@ -54,7 +54,7 @@ class OnBoardingFinishView: UIView {
     private(set) lazy var repeatButton: UIButton = {
         let view = UIButton()
         view.setTitle("Repetir configuração", for: .normal)
-        view.setTitleColor(.white, for: .normal)
+        view.setTitleColor(.label, for: .normal)
         view.titleLabel?.font = .systemFont(ofSize: 22, weight: .regular)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addTarget(self, action: #selector(handleRepeat), for: .touchUpInside)

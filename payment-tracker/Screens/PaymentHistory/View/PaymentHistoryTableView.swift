@@ -21,8 +21,6 @@ class PaymentHistoryTableView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .black
-        
         setupViews()
         setupConstraints()
         setupCollectionView()

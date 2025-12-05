@@ -13,8 +13,10 @@ final class PaymentHistoryHeaderView: UIView {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.text = "Gastos da semana:"
-        view.font = .systemFont(ofSize: 17, weight: .semibold)
-        view.textColor = .white
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 17, weight: .semibold))
+        view.textColor = .label
+        view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -22,10 +24,11 @@ final class PaymentHistoryHeaderView: UIView {
     private(set) lazy var totalSpentLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 42, weight: .bold))
+        view.font = UIFontMetrics(forTextStyle: .largeTitle).scaledFont(for: .systemFont(ofSize: 42, weight: .bold))
         view.textAlignment = .center
-        view.textColor = .white
+        view.textColor = .label
         view.adjustsFontForContentSizeCategory = true
+        view.numberOfLines = 0
 
         return view
     }()
@@ -33,9 +36,10 @@ final class PaymentHistoryHeaderView: UIView {
     private(set) lazy var comparisonLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 17, weight: .medium)
+        view.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: .systemFont(ofSize: 17, weight: .medium))
         view.textAlignment = .center
-        view.textColor = .green
+        view.numberOfLines = 0
+        view.adjustsFontForContentSizeCategory = true
 
         return view
     }()
@@ -43,10 +47,12 @@ final class PaymentHistoryHeaderView: UIView {
     private(set) lazy var datesLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.font = .systemFont(ofSize: 22, weight: .medium)
-        view.textColor = .white
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 22, weight: .medium))
+        view.textColor = .label
         view.text = "01 Dec - 07 Dec"
         view.textAlignment = .center
+        view.adjustsFontForContentSizeCategory = true
+        view.numberOfLines = 0
 
         return view
     }()
@@ -73,20 +79,17 @@ final class PaymentHistoryHeaderView: UIView {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(22)
         }
         
         totalSpentLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(24)
-            make.height.equalTo(36)
             make.horizontalEdges.equalToSuperview()
         }
         
         comparisonLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(totalSpentLabel.snp.bottom).offset(10)
-            make.height.equalTo(29)
             make.horizontalEdges.equalToSuperview()
         }
         
@@ -94,7 +97,7 @@ final class PaymentHistoryHeaderView: UIView {
             make.centerX.equalToSuperview()
             make.top.equalTo(comparisonLabel.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(16)
+            make.bottom.equalToSuperview()
         }
     }
 
