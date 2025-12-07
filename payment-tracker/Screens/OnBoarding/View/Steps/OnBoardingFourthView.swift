@@ -78,6 +78,7 @@ class OnBoardingFourthView: UIView {
         
         setupViews()
         setupConstraints()
+        setupNotifications()
     }
     
     required init?(coder: NSCoder) {
@@ -86,13 +87,34 @@ class OnBoardingFourthView: UIView {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+        
         if window != nil {
-           startVideo()
+            if player == nil {
+                startVideo()
+            } else {
+                player?.play()
+            }
         } else {
             player?.pause()
         }
     }
-    
+
+    @objc
+    private func appDidBecomeActive() {
+        guard window != nil else { return }
+
+        if player == nil {
+            startVideo()
+        } else {
+            player?.play()
+        }
+    }
+
+    @objc
+    private func appWillResignActive() {
+        player?.pause()
+    }
+
     func startVideo() {
         guard let url = Bundle.main.url(forResource: "setting_value2", withExtension: "mov") else {
             print("video not found")
@@ -158,5 +180,21 @@ class OnBoardingFourthView: UIView {
             make.height.equalTo(50)
             make.width.equalTo(300)
         }
+    }
+    
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
 }

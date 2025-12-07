@@ -78,6 +78,7 @@ class OnBoardingSecondView: UIView {
         
         setupViews()
         setupConstraints()
+        setupNotifications()
     }
     
     required init?(coder: NSCoder) {
@@ -86,13 +87,18 @@ class OnBoardingSecondView: UIView {
     
     override func didMoveToWindow() {
         super.didMoveToWindow()
+
         if window != nil {
-           startVideo()
+            if player == nil {
+                startVideo()
+            } else {
+                player?.play()
+            }
         } else {
             player?.pause()
         }
     }
-    
+
     func startVideo() {
         guard let url = Bundle.main.url(forResource: "wallet_opening", withExtension: "mov") else {
             print("video not found")
@@ -114,7 +120,23 @@ class OnBoardingSecondView: UIView {
         player.isMuted = true
         player.play()
     }
-    
+
+    @objc
+    private func appDidBecomeActive() {
+        guard window != nil else { return }
+
+        if player == nil {
+            startVideo()
+        } else {
+            player?.play()
+        }
+    }
+
+    @objc
+    private func appWillResignActive() {
+        player?.pause()
+    }
+
     private func setupViews() {
         addSubview(firstStepLabel)
         addSubview(shortcutImage)
@@ -158,5 +180,21 @@ class OnBoardingSecondView: UIView {
             make.height.equalTo(50)
             make.width.equalTo(300)
         }
+    }
+
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appDidBecomeActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
 }
