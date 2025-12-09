@@ -33,7 +33,8 @@ final class GradientButton: UIButton {
 
     private func commonInit() {
         setTitleColor(.white, for: .normal)
-        titleLabel?.font = .systemFont(ofSize: 26, weight: .semibold)
+        titleLabel?.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .systemFont(ofSize: 26, weight: .semibold))
+        titleLabel?.adjustsFontForContentSizeCategory = true
 
         gradientLayer.colors = gradientColors.map { $0.cgColor }
         updatePoints()

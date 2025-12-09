@@ -16,11 +16,12 @@ class OnBoardingFirstView: UIView {
     private(set) lazy var welcome: UILabel = {
         let view = UILabel()
         view.text = "Bem vindo ao"
-        view.font = UIFont.systemFont(ofSize: 24)
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 24))
         view.textColor = .label
         view.textAlignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.adjustsFontForContentSizeCategory = true
+
         return view
     }()
     
@@ -37,14 +38,42 @@ class OnBoardingFirstView: UIView {
         let view = UILabel()
         view.text = "Antes de começar, vamos configurar o seu app para cadastrar transações automaticamente?"
         view.textAlignment = .center
-        view.font = .systemFont(ofSize: 26)
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 26))
         view.textColor = .label
+        view.lineBreakMode = .byWordWrapping
         view.numberOfLines = 0
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.adjustsFontForContentSizeCategory = true
+        view.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+
         return view
     }()
-    
+
+    private(set) lazy var content: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [welcome, logoView, messageLabel])
+        view.axis = .vertical
+        view.spacing = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+
+    private(set) lazy var scroll: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsVerticalScrollIndicator = false
+        view.alwaysBounceVertical = true
+
+        return view
+    }()
+
+    private(set) lazy var container: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+
     private(set) lazy var continueButton: GradientButton = {
         let view = GradientButton()
         view.setTitle("Vamos lá!", for: .normal)
@@ -52,7 +81,7 @@ class OnBoardingFirstView: UIView {
         view.gradientColors = [.lightBlueCustom1, .blueCustom1, .lightBlueCustom1]
         view.direction = .topLeftToBottomRight
         view.addTarget(self, action: #selector(handleContinue), for: .touchUpInside)
-        
+
         return view
     }()
     
@@ -65,7 +94,10 @@ class OnBoardingFirstView: UIView {
         let view = UIButton()
         view.setTitle("Pular configuração", for: .normal)
         view.setTitleColor(.label, for: .normal)
-        view.titleLabel?.font = .systemFont(ofSize: 22)
+        view.titleLabel?.font = UIFontMetrics(forTextStyle: .title2).scaledFont(for: .systemFont(ofSize: 22))
+        view.titleLabel?.adjustsFontForContentSizeCategory = true
+        view.titleLabel?.textAlignment = .center
+        view.titleLabel?.numberOfLines = 0
         view.translatesAutoresizingMaskIntoConstraints = false
         view.addTarget(self, action: #selector(handleSkip), for: .touchUpInside)
         
@@ -83,48 +115,74 @@ class OnBoardingFirstView: UIView {
         setupViews()
         setupConstraints()
     }
-    
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateScrollingIfNeeded()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            setNeedsLayout()
+        }
+    }
+
+    private func updateScrollingIfNeeded() {
+        layoutIfNeeded()
+
+        let visibleHeight = scroll.bounds.height
+        let contentHeight = scroll.contentSize.height
+
+        let needsScroll = contentHeight > visibleHeight + 1
+        scroll.isScrollEnabled = needsScroll
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupViews() {
-        addSubview(welcome)
-        addSubview(logoView)
-        addSubview(messageLabel)
+        addSubview(scroll)
+        scroll.addSubview(container)
+        container.addSubview(content)
         addSubview(continueButton)
         addSubview(skipButton)
     }
     
     private func setupConstraints() {
+        scroll.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(continueButton.snp.top).offset(-16)
+        }
+
+        container.snp.makeConstraints { make in
+            make.edges.equalTo(scroll.contentLayoutGuide)
+            make.width.equalTo(scroll.frameLayoutGuide)
+            make.height.greaterThanOrEqualTo(scroll.frameLayoutGuide).priority(250)
+        }
+
+        content.snp.makeConstraints { make in
+            make.horizontalEdges.equalTo(container).inset(20)
+            make.top.greaterThanOrEqualTo(container).inset(24)
+            make.bottom.lessThanOrEqualTo(container).inset(24)
+            make.centerY.equalTo(container).priority(250)
+        }
+
         logoView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(-50)
-            make.centerX.equalToSuperview()
             make.height.equalTo(88)
-            make.width.equalTo(220)
         }
-        
-        welcome.snp.makeConstraints { make in
-            make.bottom.equalTo(logoView.snp.top).offset(12)
-            make.centerX.equalToSuperview()
-        }
-        
-        messageLabel.snp.makeConstraints { make in
-            make.top.equalTo(logoView.snp.bottom).offset(16)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
-        }
-        
-        skipButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(40)
-            make.centerX.equalToSuperview()
-        }
-        
+
         continueButton.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(48)
             make.bottom.equalTo(skipButton.snp.top).offset(-20)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
-            make.height.equalTo(50)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        skipButton.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

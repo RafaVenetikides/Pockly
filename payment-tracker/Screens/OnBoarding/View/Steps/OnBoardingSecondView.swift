@@ -21,9 +21,10 @@ class OnBoardingSecondView: UIView {
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .label
-        view.font = .systemFont(ofSize: 14, weight: .semibold)
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 16, weight: .semibold))
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return view
     }()
     
@@ -42,7 +43,8 @@ class OnBoardingSecondView: UIView {
         view.textAlignment = .center
         view.numberOfLines = 0
         view.textColor = .label
-        view.font = .systemFont(ofSize: 14, weight: .semibold)
+        view.font = UIFontMetrics(forTextStyle: .body).scaledFont(for: .systemFont(ofSize: 16, weight: .semibold))
+        view.adjustsFontForContentSizeCategory = true
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -55,7 +57,35 @@ class OnBoardingSecondView: UIView {
         
         return view
     }()
-    
+
+    private(set) lazy var scroll: UIScrollView = {
+        let view = UIScrollView()
+        view.showsVerticalScrollIndicator = false
+        view.alwaysBounceVertical = true
+        view.addSubview(container)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+
+    private(set) lazy var container: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(content)
+
+        return view
+    }()
+
+    private(set) lazy var content: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [firstStepLabel, shortcutImage, secondStepLabel, videoView])
+        view.axis = .vertical
+        view.alignment = .center
+        view.spacing = 16
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        return view
+    }()
+
     private(set) lazy var nextButton: GradientButton = {
         let view = GradientButton()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -137,48 +167,67 @@ class OnBoardingSecondView: UIView {
         player?.pause()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateScrollingIfNeeded()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            setNeedsLayout()
+        }
+    }
+
+    private func updateScrollingIfNeeded() {
+        layoutIfNeeded()
+        let visible = scroll.bounds.height
+        let contentH = scroll.contentSize.height
+        let needs = contentH > visible + 1
+        scroll.isScrollEnabled = needs
+    }
+
     private func setupViews() {
-        addSubview(firstStepLabel)
-        addSubview(shortcutImage)
-        addSubview(secondStepLabel)
-        addSubview(videoView)
+        addSubview(scroll)
         addSubview(nextButton)
     }
     
     private func setupConstraints() {
-        firstStepLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(75)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(70)
-            make.width.equalTo(290)
-        }
-        
-        shortcutImage.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(firstStepLabel.snp.bottom).offset(12)
-            make.height.equalTo(86)
-            make.width.equalTo(86)
-        }
-        
-        secondStepLabel.snp.makeConstraints { make in
-            make.top.equalTo(shortcutImage.snp.bottom).offset(18)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(70)
-            make.width.equalTo(300)
-        }
-        
-        videoView.snp.makeConstraints { make in
-            make.top.equalTo(secondStepLabel.snp.bottom).offset(12)
+        scroll.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview().inset(12)
             make.bottom.equalTo(nextButton.snp.top).offset(-24)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(190)
         }
-        
-        nextButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(36)
+
+        container.snp.makeConstraints { make in
+            make.edges.equalTo(scroll.contentLayoutGuide)
+            make.width.equalTo(scroll.frameLayoutGuide)
+            make.height.greaterThanOrEqualTo(scroll.frameLayoutGuide).priority(250)
+        }
+
+        content.snp.makeConstraints { make in
+            make.top.greaterThanOrEqualTo(container).inset(24)
+            make.bottom.lessThanOrEqualTo(container).inset(24)
+            make.horizontalEdges.equalTo(container)
+            make.centerY.equalTo(container).priority(250)
+        }
+
+        shortcutImage.snp.makeConstraints { make in
+            make.height.lessThanOrEqualTo(100)
+            make.width.lessThanOrEqualTo(170)
             make.centerX.equalToSuperview()
-            make.height.equalTo(50)
-            make.width.equalTo(300)
+        }
+
+        videoView.snp.makeConstraints { make in
+            make.width.equalTo(container).multipliedBy(0.75).inset(20)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(videoView.snp.width).multipliedBy(13.0 / 6.0)
+        }
+
+        nextButton.snp.makeConstraints { make in
+            make.height.greaterThanOrEqualTo(48)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(16)
         }
     }
 
@@ -192,7 +241,7 @@ class OnBoardingSecondView: UIView {
 
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(appDidBecomeActive),
+            selector: #selector(appWillResignActive),
             name: UIApplication.willResignActiveNotification,
             object: nil
         )
